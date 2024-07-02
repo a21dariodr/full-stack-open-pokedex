@@ -11,7 +11,8 @@
     "test:e2e:report": "playwright show-report",
     "eslint": "eslint './**/*.{js,jsx}'",
     "build": "webpack --mode production",
-    "deploy": "fly deploy"
+    "deploy": "fly deploy",
+    "deploy:remote": "flyctl deploy --remote-only"
   },
   "repository": {
     "type": "git",
