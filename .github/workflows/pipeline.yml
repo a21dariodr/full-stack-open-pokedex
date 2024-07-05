@@ -67,3 +67,25 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
+
+  discord_notification:
+    needs: [tag_release]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Test Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+            severity: info
+            text: A new version of Pokedex deployed
+            details: to https://full-stack-open-pokedex-damp-snowflake-873.fly.dev/ by a21dariodr
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Test Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+            severity: error
+            description: commit
+            text: ${{ github.event.head_commit.url }} by a21dariodr broke the build :(
+            details: Build failed
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
